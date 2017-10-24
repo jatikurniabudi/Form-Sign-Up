@@ -1,26 +1,57 @@
+<?php
+// Create database connection using config file
+include_once("config.php");
+ 
+// Fetch all users data from database
+$result = mysqli_query($mysqli, "SELECT * FROM users ORDER BY id DESC");
+?>
+ 
 <html>
-  <head>
-    <title>Registration</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width , initial-scale=1">
-  </head>
-  <body>
-    <div id="bg">
-      <div class="form">
-          <h2>REGISTRATION</h2> 
+<head>    
+    <title>Homepage</title>
+</head>
+ 
+<body>
+    <style>
+table 
+{
+    border-collapse: collapse;
+    width: 100%;
 
- <form action="hasil.php" method="post">
-            <input class="itpw" type="email" name="email" placeholder="Email"><br>
-            <input class="itpw" type="text" name="fullname" placeholder="Fullname"><br>
-            <input class="itpw" type="text" name="username" placeholder="Username"><br>
-            <input class="itpw" type="password" name="password" placeholder="Password"><br>
-            <input class="its" type="submit" name="singup" value="SIGN UP">
-          </form>
+}
 
-          <p><a href="#"> Have an account? </p>
+th, td {
+    text-align: left;
+    padding: 8px;
+}
 
-      </div>
-    </div>
+tr:nth-child(even){background-color: #f2f2f2}
 
-  </body>
-</html
+th {
+    background-color: #e74c3c;
+    color: white;
+}
+</style>
+<a href="add.php">Add New User</a><br/><br/>
+ 
+    <table width='80%' border=1>
+ 
+    <tr>
+        <th>Name</th> <th>Username</th> <th>Email</th> <th>Password</th> <th>Update</th>
+    </tr>
+    <?php  
+
+while($user_data = mysqli_fetch_array($result)) {  
+     $lenPass = strlen($user_data['password']); 
+        echo "<tr>";
+        echo "<td>".$user_data['name']."</td>";
+        echo "<td>".$user_data['username']."</td>";
+        echo "<td>".$user_data['email']."</td>";
+        echo "<td>".$user_data['password']."</td>";  
+    
+        echo "<td><a href='edit.php?id=$user_data[id]'>Edit</a> | <a href='delete.php?id=$user_data[id]'>Delete</a></td></tr>";        
+    }
+    ?>
+    </table>
+</body>
+</html>
